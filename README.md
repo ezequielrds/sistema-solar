@@ -2,7 +2,8 @@
 
 Um jogo educativo em português para pequenos exploradores. Visite o Sol, os oito planetas e 14 luas; brinque com o tempo; aprenda os nomes dos astros e colecione carimbos no passaporte espacial.
 
-**Jogar:** https://ezequielrds.github.io/sistema-solar/  
+**Jogar:** https://ezequielrds.github.io/sistema-solar/
+
 **Código:** https://github.com/ezequielrds/sistema-solar
 
 ## Desenvolvimento
