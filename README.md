@@ -25,6 +25,7 @@ O endereço local é `http://127.0.0.1:5173/sistema-solar/`. A base `/sistema-so
 
 - Arraste com um dedo ou o mouse para orbitar a câmera. Use pinça ou roda para aproximar. Dois dedos ou botão direito movem o centro.
 - Toque nos planetas ou use os atalhos do menu. “Visitar de perto” abre a escala local. Em “Luas”, escolha uma companheira para visitar.
+- As 14 luas também orbitam seus planetas no mapa completo. Marcadores indicam suas posições de longe; aproxime a câmera para revelar os nomes ou toque em um marcador para visitar a lua. “Nomes” controla os marcadores e “Órbitas” controla os trajetos.
 - Abra “Missões” para ver oito objetivos. Os desafios têm pistas, tentativas ilimitadas e leitura em voz alta quando suportada pelo aparelho.
 - Visitas valem 10 estrelas; cada nome aprendido vale 15; missões têm bônus. Cada recompensa é concedida uma única vez.
 - “Meu passaporte” guarda planetas e luas visitados, nomes aprendidos e medalhas.
@@ -36,7 +37,7 @@ Não existe uma escala física global. O modelo mantém **tamanhos e distâncias
 
 | Visão | Tamanhos | Distâncias |
 | --- | --- | --- |
-| Sistema | Raios escolhidos para tornar todos os planetas visíveis | Semieixos comprimidos, preservando ordem, excentricidade e orientação |
+| Sistema | Planetas e 14 luas com raios educativos independentes | Órbitas planetárias comprimidas e pequenas órbitas lunares centradas nos planetas, com folga para os anéis de Saturno |
 | Planeta e luas | Planeta ampliado e luas com raios próprios | Órbitas lunares separadas para facilitar a exploração |
 | Visita à lua | Lua ampliada no centro da cena | A câmera permite observar sua superfície |
 

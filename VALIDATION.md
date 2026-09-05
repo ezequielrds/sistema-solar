@@ -5,7 +5,7 @@ Data: 5 de setembro de 2026.
 ## Verificações automatizadas
 
 - `npm run lint`: aprovado, sem erros ou avisos no código do projeto.
-- `npm test`: 65 testes aprovados em duas suítes (48 de órbitas/rotação, 17 de missões/conteúdo).
+- `npm test`: 89 testes aprovados em três suítes (48 de órbitas/rotação, 17 de missões/conteúdo e 24 de escalas/hierarquia das luas).
 - `npm run build`: TypeScript, Vite e geração do service worker aprovados.
 - `scripts/verify-build.mjs`: 52 URLs únicas no precache; todos os arquivos existem; o GLB sem hash tem revisão de conteúdo; fallback de navegação e controle de clientes estão presentes; manifesto, Meshopt, quantização e cabeçalho KTX2 válidos.
 - `npm audit`: sem vulnerabilidades conhecidas na instalação validada. A versão corrigida de Sharp é utilizada.
@@ -23,6 +23,16 @@ Data: 5 de setembro de 2026.
 - Troca de renderizador deixou de disparar o aviso incorreto de contexto perdido; recursos do renderizador anterior são liberados.
 - Carregamento progressivo das texturas recompila os materiais quando o mapa fica pronto.
 - Nenhum erro de execução da cena foi registrado na rodada final consultada. Há um aviso de depreciação do Clock, usado internamente pela versão atual do React Three Fiber.
+
+## Atualização: luas no mapa completo
+
+- As 14 luas selecionadas foram verificadas como marcadores na visão “Sistema Solar + luas”.
+- Aproximar Júpiter no mapa revelou Io, Europa, Ganimedes e Calisto, mantendo os demais planetas na cena.
+- Clicar no marcador de Io abriu “Visita à lua”; retornar a Júpiter abriu “Planeta e luas”; voltar ao mapa restaurou as 14 luas.
+- Desligar e religar “Nomes” removeu e restaurou os 14 marcadores.
+- Inspeção visual da compilação em 1280×720 e da versão de desenvolvimento em quadros de 390×844 e 768×1024, no Chrome. O aviso das luas e os controles permaneceram legíveis. Esses quadros verificam o layout responsivo, não o desempenho ou gestos de um dispositivo físico.
+- Consulta aos erros do navegador após a navegação de Júpiter: nenhum erro registrado.
+- Os novos testes cobrem todas as luas, folga dos anéis, separação das órbitas, posições mundiais acompanhando o planeta e preservação dos períodos lunares.
 
 ## Teste offline real
 

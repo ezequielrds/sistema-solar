@@ -34,3 +34,12 @@
 @media(min-width:651px){.body-card{display:flex;flex-direction:column}.card-kicker,.body-card-title,.card-actions{flex-shrink:0}.card-details{min-height:0;overflow-y:auto;padding-right:3px}.body-intro{font-size:13px;line-height:1.8}.fun-fact p{font-size:12px;line-height:1.8}.fun-fact strong{font-size:12px}.planet-facts>div>span{font-size:8px}.planet-facts strong{font-size:13px}.card-tabs button{font-size:12px}.body-card-title div>span{font-size:11px}.card-actions .primary-button{font-size:12px;min-height:44px}.read-body{font-size:10px}.rotation-note,.artistic-note{font-size:10px}.moon-list>p{font-size:12px}.moon-list>button>span:nth-child(2){font-size:12px}.moon-list small{font-size:9px}.planet-nav button{font-size:13px}.main-nav button{font-size:13px}.time-title>strong{font-size:12px}.speed-selector button small{font-size:8px}.speed-selector button{min-width:48px}.speed-selector button>span{font-size:12px}.body-label{font-size:11px}.brand small{font-size:7px;letter-spacing:1.2px;white-space:nowrap}}
 @media(min-width:901px) and (max-width:1190px){.speed-selector button{min-width:38px}.speed-selector button small{font-size:6px}.time-title>strong{font-size:10px}.body-card-title div>span{font-size:10px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+
+/* Distant moons stay visible as small markers; zoom, hover or keyboard focus reveals names. */
+.scene-moon-note{position:absolute;top:61px;left:18px;max-width:calc(100% - 78px);margin:0;font-size:10px;line-height:1.6;color:#b4c0d8;pointer-events:none;text-shadow:0 1px 5px #080c18}
+.system-moon-label{min-width:28px;min-height:28px;padding:4px;gap:0;background:transparent;border-color:transparent}
+.system-moon-label>i{width:5px;height:5px;opacity:1;box-shadow:0 0 5px #e4eaff99}
+.system-moon-label>.body-label-name{display:none}
+.system-moon-label:is(.moon-label-near,:hover,:focus-visible){gap:5px;padding:4px 7px;background:#080c18d9;border-color:#c2cada33;font-size:10px}
+.system-moon-label:is(.moon-label-near,:hover,:focus-visible)>.body-label-name{display:inline}
+@media(pointer:coarse){.system-moon-label{min-width:36px;min-height:36px}}

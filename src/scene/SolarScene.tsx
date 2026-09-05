@@ -3,6 +3,7 @@ import { Canvas } from '@react-three/fiber';
 import { WebGLRenderer, ACESFilmicToneMapping } from 'three';
 import { bodyById, planets, sun, moonsOf } from '../content/bodies';
 import { CelestialBody } from '../celestial-bodies/CelestialBody';
+import { PlanetarySystem } from '../celestial-bodies/PlanetarySystem';
 import { OrbitPath } from '../orbits/OrbitPath';
 import { AsteroidBelt } from '../asteroid-belt/AsteroidBelt';
 import { CameraRig } from '../camera/CameraRig';
@@ -41,7 +42,7 @@ function Worlds() {
     <CelestialBody body={sun} />
     {planets.map(planet => <group key={planet.id}>
       <OrbitPath orbit={planet.orbit} radius={planet.distance} color={planet.color} highlighted={planet.id === selected} />
-      <CelestialBody body={planet} radius={planet.radius * 1.15} />
+      <PlanetarySystem planet={planet} />
     </group>)}
     <AsteroidBelt />
   </>;
