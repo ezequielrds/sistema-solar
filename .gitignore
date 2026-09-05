@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.asset-cache/
+*.local
+*.tsbuildinfo
+test-results/
+.DS_Store
