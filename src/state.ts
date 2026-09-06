@@ -3,6 +3,7 @@ import { persist, createJSONStorage } from 'zustand/middleware';
 import { bodyById } from './content/bodies';
 import { emptyProgress, recordProgress, sanitizeProgress, type Progress } from './missions/rules';
 import { detectQuality, type Quality, type QualitySetting } from './performance/quality';
+import type { CameraMode } from './camera/navigation';
 
 export const speeds = [
   { name: 'Observar', rate: .01, label: '14 min / segundo', short: 'Devagar' },
@@ -32,6 +33,7 @@ interface Store {
   rendererActive: string;
   resetCamera: number;
   zoomRequest: number;
+  cameraMode: CameraMode;
   progress: Progress;
   storageError: boolean;
   select: (id: string, close?: boolean) => void;
@@ -54,7 +56,7 @@ export const useStore = create<Store>()(persist((set, get) => ({
   selected: 'sun', view: 'system', section: 'explore', modal: null, quizId: null,
   speed: 2, paused: matchMedia('(prefers-reduced-motion: reduce)').matches,
   labels: true, paths: true, sound: false, quality: 'auto', autoQuality: detectQuality(),
-  renderer: 'webgl', rendererActive: 'WebGL 2', resetCamera: 0, zoomRequest: 0, progress: emptyProgress(), storageError: false,
+  renderer: 'webgl', rendererActive: 'WebGL 2', resetCamera: 0, zoomRequest: 0, cameraMode: 'orbit', progress: emptyProgress(), storageError: false,
   select: (id, close = false) => {
     if (!bodyById[id] && id !== 'belt') return;
     set(s => ({ selected: id, section: 'explore', view: close ? (bodyById[id]?.kind === 'moon' ? 'moon' : 'local') : 'system', resetCamera: s.resetCamera + 1, progress: recordProgress(s.progress, 'visited', id) }));

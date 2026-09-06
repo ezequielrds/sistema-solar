@@ -1,26 +1,14 @@
 import { useMemo, useRef, type ReactNode } from 'react';
 import { useFrame, type ThreeEvent } from '@react-three/fiber';
 import { Html } from '@react-three/drei';
-import { CanvasTexture, DoubleSide, Group, Mesh, RingGeometry } from 'three';
+import { CanvasTexture, Group, Mesh } from 'three';
 import type { CelestialBody as Body } from '../content/bodies';
 import { orbitalPosition, radians, rotationAngle } from '../orbits/kepler';
 import { qualityPresets } from '../performance/quality';
 import { simulation, useStore } from '../state';
 import { writeWorldPosition } from '../scene/positions';
 import { useSurfaceTexture } from './useSurfaceTexture';
-
-function SaturnRings({ radius }: { radius: number }) {
-  const geometry = useMemo(() => {
-    const ring = new RingGeometry(radius * 1.35, radius * 2.3, 96, 6);
-    const uv = ring.attributes.uv, pos = ring.attributes.position;
-    for (let i = 0; i < pos.count; i++) uv.setXY(i, (Math.hypot(pos.getX(i), pos.getY(i)) / radius - 1.35) / .95, .5);
-    return ring;
-  }, [radius]);
-  const map = useSurfaceTexture('saturn-ring');
-  return <mesh geometry={geometry} rotation={[-Math.PI / 2, 0, 0]}>
-    <meshStandardMaterial key={map?.uuid ?? 'ring-placeholder'} color={map ? '#ffffff' : '#bea986'} map={map} side={DoubleSide} transparent opacity={.88} roughness={1} depthWrite={false} />
-  </mesh>;
-}
+import { SaturnRings } from './SaturnRings';
 
 function SunGlow({ radius }: { radius: number }) {
   const glow = useMemo(() => {
@@ -48,6 +36,7 @@ export function CelestialBody({ body, central = false, radius: radiusOverride, d
   const labels = useStore(s => s.labels);
   const selected = useStore(s => s.selected === body.id);
   const view = useStore(s => s.view);
+  const panning = useStore(s => s.cameraMode === 'pan');
   const systemMoon = view === 'system' && body.kind === 'moon';
   const segments = systemMoon ? Math.min(24, qualityPresets[quality].segments) : qualityPresets[quality].segments;
   useFrame(({ camera }) => {
@@ -62,11 +51,11 @@ export function CelestialBody({ body, central = false, radius: radiusOverride, d
     // Parent translations run before moon positions and the camera (-10).
   }, body.kind === 'planet' ? -40 : -30);
 
-  const onSelect = (e: ThreeEvent<MouseEvent>) => { e.stopPropagation(); useStore.getState().select(body.id, body.kind === 'moon' || view !== 'system'); };
+  const onSelect = (e: ThreeEvent<MouseEvent>) => { if (panning) return; e.stopPropagation(); useStore.getState().select(body.id, body.kind === 'moon' || view !== 'system'); };
   return <group ref={group}>
     {body.kind === 'star' && <SunGlow radius={radius} />}
     <group rotation={[0, 0, radians(body.tilt)]}>
-      <mesh ref={surface} onClick={onSelect} onPointerOver={() => { document.body.style.cursor = 'pointer'; }} onPointerOut={() => { document.body.style.cursor = ''; }}>
+      <mesh ref={surface} onClick={onSelect} onPointerOver={() => { if (!panning) document.body.style.cursor = 'pointer'; }} onPointerOut={() => { document.body.style.cursor = ''; }}>
         <sphereGeometry args={[radius, segments, Math.max(16, segments / 2)]} />
         {body.kind === 'star' ? <meshBasicMaterial key={map?.uuid ?? 'star-placeholder'} map={map} color={map ? '#fff0c5' : body.color} toneMapped={false} /> : <meshStandardMaterial key={map?.uuid ?? 'surface-placeholder'} map={map} color={map ? '#ffffff' : body.color} roughness={1} metalness={0} />}
       </mesh>
@@ -77,7 +66,7 @@ export function CelestialBody({ body, central = false, radius: radiusOverride, d
       </mesh>}
     </group>
     {children}
-    {labels && <Html position={[0, radius + (body.kind === 'star' ? .6 : systemMoon ? .1 : .35), 0]} center zIndexRange={systemMoon ? [10, 0] : [12, 0]} style={{ pointerEvents: 'auto' }}>
+    {labels && <Html position={[0, radius + (body.kind === 'star' ? .6 : systemMoon ? .1 : .35), 0]} center zIndexRange={systemMoon ? [10, 0] : [12, 0]} style={{ pointerEvents: panning ? 'none' : 'auto' }}>
       <button ref={label} className={`body-label ${systemMoon ? 'system-moon-label' : ''} ${selected ? 'is-selected' : ''}`} title={systemMoon ? `${body.name} · aproxime para conhecer` : undefined} onClick={() => useStore.getState().select(body.id, body.kind === 'moon' || view !== 'system')} aria-label={`Explorar ${body.name}`}>
         <i style={{ background: body.color }} /><span className="body-label-name">{body.name}</span>{selected && <span className="label-dot" />}
       </button>

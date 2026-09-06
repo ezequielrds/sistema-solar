@@ -6,6 +6,7 @@ import { Vector3 } from 'three';
 import { bodyById, moonsOf } from '../content/bodies';
 import { positions } from '../scene/positions';
 import { useStore } from '../state';
+import { navigationBindings, zoomAroundTarget } from './navigation';
 
 const origin = new Vector3();
 export function CameraRig() {
@@ -13,6 +14,8 @@ export function CameraRig() {
   const { camera, size } = useThree();
   const selected = useStore(s => s.selected), view = useStore(s => s.view), reset = useStore(s => s.resetCamera);
   const zoom = useStore(s => s.zoomRequest);
+  const mode = useStore(s => s.cameraMode);
+  const following = useRef(true);
   const lastZoom = useRef(zoom);
   const transition = useRef(2);
   const offset = useRef(new Vector3());
@@ -26,9 +29,18 @@ export function CameraRig() {
     if (view === 'moon') distance = 13 * portrait;
     offset.current.set(distance * .1, distance * .64, distance * .77);
     transition.current = 1.6;
+    following.current = true;
   }, [selected, view, reset, size.width, size.height]);
   useEffect(() => {
-    if (zoom !== lastZoom.current && ref.current) camera.position.sub(ref.current.target).multiplyScalar(zoom > lastZoom.current ? .76 : 1.32).add(ref.current.target);
+    if (mode === 'pan') { transition.current = 0; following.current = false; }
+  }, [mode]);
+  useEffect(() => {
+    if (zoom !== lastZoom.current && ref.current) {
+      transition.current = 0;
+      following.current = false;
+      zoomAroundTarget(camera.position, ref.current.target, zoom > lastZoom.current ? .76 : 1.32);
+      ref.current.update();
+    }
     lastZoom.current = zoom;
   }, [zoom, camera]);
   useFrame((_, dt) => {
@@ -40,12 +52,12 @@ export function CameraRig() {
       camera.position.lerp(desired.current, 1 - Math.exp(-4.8 * dt));
       controls.target.lerp(target, 1 - Math.exp(-5 * dt));
       transition.current -= dt;
-    } else if (selected !== 'sun' && view === 'system') {
+    } else if (following.current && selected !== 'sun' && view === 'system') {
       desired.current.copy(target).sub(lastTarget.current);
       camera.position.add(desired.current);
       controls.target.add(desired.current);
     }
     lastTarget.current.copy(target);
   }, -10);
-  return <OrbitControls ref={ref} makeDefault enableDamping dampingFactor={.09} enablePan minDistance={4} maxDistance={320} rotateSpeed={.5} zoomSpeed={.8} maxPolarAngle={Math.PI * .95} onStart={() => { transition.current = 0; }} />;
+  return <OrbitControls ref={ref} makeDefault enableDamping dampingFactor={.09} enablePan screenSpacePanning zoomToCursor {...navigationBindings(mode)} minDistance={4} maxDistance={320} rotateSpeed={.5} panSpeed={1} zoomSpeed={.8} maxPolarAngle={Math.PI * .95} onStart={() => { transition.current = 0; following.current = false; }} />;
 }

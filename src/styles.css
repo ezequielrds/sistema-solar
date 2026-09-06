@@ -36,6 +36,11 @@
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 
 /* Distant moons stay visible as small markers; zoom, hover or keyboard focus reveals names. */
+.scene-tools .icon-button[aria-pressed=true]{color:#f7c36c;background:#f7c36c24;border:1px solid #f7c36c66;border-radius:6px}
+.camera-pan .canvas-container,.camera-pan .canvas-container canvas{cursor:grab}
+.camera-pan .canvas-container canvas:active{cursor:grabbing}
+.camera-pan .body-label{pointer-events:none}
+.camera-mode-hint{position:absolute;left:18px;bottom:46px;display:flex;align-items:center;gap:7px;max-width:calc(100% - 86px);padding:7px 9px;border-radius:6px;background:#101827e8;color:#f7c36c;font-size:10px;line-height:1.6;pointer-events:none;z-index:13}
 .scene-moon-note{position:absolute;top:61px;left:18px;max-width:calc(100% - 78px);margin:0;font-size:10px;line-height:1.6;color:#b4c0d8;pointer-events:none;text-shadow:0 1px 5px #080c18}
 .system-moon-label{min-width:28px;min-height:28px;padding:4px;gap:0;background:transparent;border-color:transparent}
 .system-moon-label>i{width:5px;height:5px;opacity:1;box-shadow:0 0 5px #e4eaff99}

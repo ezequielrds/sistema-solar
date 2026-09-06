@@ -1,11 +1,11 @@
 # Validação da entrega
 
-Data: 5 de setembro de 2026.
+Última atualização: 6 de setembro de 2026.
 
 ## Verificações automatizadas
 
 - `npm run lint`: aprovado, sem erros ou avisos no código do projeto.
-- `npm test`: 89 testes aprovados em três suítes (48 de órbitas/rotação, 17 de missões/conteúdo e 24 de escalas/hierarquia das luas).
+- `npm test`: 97 testes aprovados em cinco suítes (48 de órbitas/rotação, 17 de missões/conteúdo, 24 de escalas/hierarquia das luas, 5 de navegação e 3 da geometria dos anéis).
 - `npm run build`: TypeScript, Vite e geração do service worker aprovados.
 - `scripts/verify-build.mjs`: 52 URLs únicas no precache; todos os arquivos existem; o GLB sem hash tem revisão de conteúdo; fallback de navegação e controle de clientes estão presentes; manifesto, Meshopt, quantização e cabeçalho KTX2 válidos.
 - `npm audit`: sem vulnerabilidades conhecidas na instalação validada. A versão corrigida de Sharp é utilizada.
@@ -33,6 +33,15 @@ Data: 5 de setembro de 2026.
 - Inspeção visual da compilação em 1280×720 e da versão de desenvolvimento em quadros de 390×844 e 768×1024, no Chrome. O aviso das luas e os controles permaneceram legíveis. Esses quadros verificam o layout responsivo, não o desempenho ou gestos de um dispositivo físico.
 - Consulta aos erros do navegador após a navegação de Júpiter: nenhum erro registrado.
 - Os novos testes cobrem todas as luas, folga dos anéis, separação das órbitas, posições mundiais acompanhando o planeta e preservação dos períodos lunares.
+
+## Atualização: mãozinha e anéis de Saturno
+
+- Mãozinha ativa indicada visualmente, com cursor de agarrar e instrução de arrastar. O arrasto lateral no mapa moveu a posição projetada do Sol sem selecionar outro astro.
+- Zoom pelo botão + após deslocamento preservou o centro escolhido, sem voltar ao Sol. Modo Girar e navegação pelo menu continuaram funcionando.
+- Anéis inspecionados antes/depois em Saturno: bandas e bordas agora legíveis, transparência preservada, iluminação uniforme educativa e contorno com mais segmentos.
+- Novos testes verificam bindings de mouse/toque, zoom no centro deslocado e seus limites, UVs radiais, fechamento do anel e orçamento da geometria econômica.
+- Lint e build aprovados; nenhum erro de execução na consulta ao navegador após os testes de navegação e Saturno.
+- As correções visuais e de pan desta rodada foram validadas em WebGL. Na verificação adicional, WebGPU apresentou cena vazia neste ambiente mesmo sem erro no console; essa modalidade experimental não está validada nesta atualização. Use WebGL, que permanece o padrão. Não foi determinada a causa desse comportamento.
 
 ## Teste offline real
 

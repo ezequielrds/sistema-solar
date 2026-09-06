@@ -32,7 +32,7 @@ function RockInstances({ geometry }: { geometry: BufferGeometry }) {
     });
     ref.current.instanceMatrix.needsUpdate = true;
   }, -25);
-  return <instancedMesh ref={ref} args={[geometry, undefined, count]} frustumCulled={false} onClick={e => { e.stopPropagation(); useStore.getState().select('belt'); }}>
+  return <instancedMesh ref={ref} args={[geometry, undefined, count]} frustumCulled={false} onClick={e => { if (useStore.getState().cameraMode === 'pan') return; e.stopPropagation(); useStore.getState().select('belt'); }}>
     <meshStandardMaterial color="#ad9d89" roughness={1} />
   </instancedMesh>;
 }

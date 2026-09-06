@@ -24,6 +24,7 @@ O endereço local é `http://127.0.0.1:5173/sistema-solar/`. A base `/sistema-so
 ## Como jogar
 
 - Arraste com um dedo ou o mouse para orbitar a câmera. Use pinça ou roda para aproximar. Dois dedos ou botão direito movem o centro.
+- O botão **mãozinha** permite mover o mapa com o botão esquerdo ou um dedo, sem selecionar astros por acidente. O botão **Girar** restaura a rotação. A roda aproxima na direção do cursor; os botões +/− aproximam do centro escolhido após o pan. **Centralizar** volta ao astro selecionado. Navegar manualmente interrompe o acompanhamento automático do astro.
 - Toque nos planetas ou use os atalhos do menu. “Visitar de perto” abre a escala local. Em “Luas”, escolha uma companheira para visitar.
 - As 14 luas também orbitam seus planetas no mapa completo. Marcadores indicam suas posições de longe; aproxime a câmera para revelar os nomes ou toque em um marcador para visitar a lua. “Nomes” controla os marcadores e “Órbitas” controla os trajetos.
 - Abra “Missões” para ver oito objetivos. Os desafios têm pistas, tentativas ilimitadas e leitura em voz alta quando suportada pelo aparelho.
@@ -58,6 +59,8 @@ Trata-se de uma aproximação educativa de dois corpos, **não uma efeméride do
 Os períodos e excentricidades lunares são aproximados; suas fases iniciais e vários planos orbitais são ilustrativos. As luas não representam a contagem completa de satélites. Em visão local, a direção da luz fica fixa para evidenciar a superfície; fases lunares e eclipses não são calculados. Rotação rápida pode sofrer aliasing temporal: diminua o nível para perceber seu sentido. Fobos e Deimos, irregulares na realidade, usam esferas educativas. Luas além da nossa Lua têm cores ilustrativas, informadas no cartão.
 
 Fontes: [NASA/JPL, elementos orbitais](https://ssd.jpl.nasa.gov/planets/approx_pos.html), [NASA Science](https://science.nasa.gov/solar-system/), [JPL, elementos dos satélites](https://ssd.jpl.nasa.gov/sats/elem/).
+
+Os anéis usam a textura licenciada com bandas e transparência radial, geometria de 128/256 segmentos e iluminação uniforme educativa para permanecerem legíveis dos dois lados. Não reproduzem a sombra física de Saturno sobre os anéis.
 
 ## Arquitetura
 

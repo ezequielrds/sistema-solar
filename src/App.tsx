@@ -1,5 +1,6 @@
 import { lazy, Suspense, useEffect, useState } from 'react';
-import { ArrowLeft, ArrowRight, BookOpen, Check, ChevronDown, Compass, Expand, Flag, HelpCircle, Info, Menu, Minus, Orbit, Plus, Rocket, Settings2, Sparkles, Target, Volume2, VolumeX, X } from 'lucide-react';
+import { ArrowLeft, ArrowRight, BookOpen, Check, ChevronDown, Compass, Flag, HelpCircle, Info, Menu, Orbit, Rocket, Settings2, Sparkles, Volume2, VolumeX, X } from 'lucide-react';
+import { CameraTools } from './ui/CameraTools';
 import { Sidebar } from './ui/Sidebar';
 import { BodyCard } from './ui/BodyCard';
 import { TimeControls } from './ui/TimeControls';
@@ -25,6 +26,7 @@ export default function App() {
   const pwa = usePWA();
   const visited = planets.filter(p => progress.visited.includes(p.id)).length;
   const isHome = selected === 'sun' && view === 'system';
+  const cameraMode = useStore(s => s.cameraMode);
   useEffect(() => {
     const handle = (e: KeyboardEvent) => {
       if (e.target instanceof HTMLElement && (['INPUT', 'SELECT', 'TEXTAREA', 'BUTTON'].includes(e.target.tagName) || e.target.isContentEditable)) return;
@@ -45,11 +47,11 @@ export default function App() {
       <header className="topbar"><div className="breadcrumb"><button className="icon-button menu-button" aria-label="Abrir menu de astros" onClick={() => setMenu(true)}><Menu size={21} /></button><span className="breadcrumb-icon"><Orbit size={18} /></span><span>Central de exploração</span><span className="breadcrumb-divider">/</span><strong>{section === 'missions' ? 'Missões' : section === 'passport' ? 'Meu passaporte' : 'Sistema Solar'}</strong></div><div className="topbar-actions"><span className="xp-chip"><Sparkles size={15} /> {calculateXP(progress)} <span>estrelas</span></span><button className="icon-button" aria-label={sound ? 'Desligar sons' : 'Ligar sons'} onClick={() => { useStore.setState({ sound: !sound }); playSound('tap', !sound); }}>{sound ? <Volume2 size={18} /> : <VolumeX size={18} />}</button><button className="icon-button" aria-label="Abrir configurações" onClick={() => useStore.getState().setModal('settings')}><Settings2 size={19} /></button><span className="topbar-avatar" aria-hidden="true">🧑‍🚀</span></div></header>
       <div className={`explorer-workspace ${section !== 'explore' ? 'workspace-hidden' : ''}`}>
         <div className="explore-heading"><div><div className="page-eyebrow"><span className="live-dot" /> SUA VIAGEM PELO SISTEMA SOLAR</div><h1>{isHome ? <>O universo é seu<span>.</span></> : <>{selected === 'belt' ? 'Entre mundos' : bodyById[selected]?.name}<span>.</span></>}</h1><p>{isHome ? 'Pequenos exploradores. Grandes descobertas.' : view === 'moon' ? 'Uma nova companheira para conhecer.' : view === 'local' ? 'Chegue mais perto. A curiosidade é sua bússola.' : 'Um novo ponto de vista para a sua aventura.'}</p></div><button className="help-pill" onClick={() => useStore.getState().setModal('help')}><HelpCircle size={15} /> Como explorar</button></div>
-        <div className="space-stage"><Suspense fallback={<div className="scene-loading"><Orbit size={36} /><p>Preparando o universo…</p></div>}><SolarScene /></Suspense>
+        <div className={`space-stage ${cameraMode === 'pan' ? 'camera-pan' : ''}`}><Suspense fallback={<div className="scene-loading"><Orbit size={36} /><p>Preparando o universo…</p></div>}><SolarScene /></Suspense>
           <div className="scene-top-controls"><button className="view-chip" onClick={() => useStore.getState().overview()}><Orbit size={15} />{view === 'system' ? 'Sistema Solar + luas' : view === 'local' ? 'Planeta e luas' : 'Visita à lua'}<ChevronDown size={14} /></button><button className="scale-chip" onClick={() => useStore.getState().setModal('help')}><Info size={13} /> Escalas educativas</button></div>
           {!isHome && <button className="back-to-system" onClick={() => useStore.getState().overview()}><ArrowLeft size={15} /> Ver todo o sistema</button>}
           {isHome && <p className="scene-moon-note">14 luas em órbita · aproxime para ver os nomes</p>}
-          <div className="scene-tools"><button className="icon-button" aria-label="Aproximar câmera" onClick={() => useStore.setState(s => ({ zoomRequest: s.zoomRequest + 1 }))}><Plus size={20} /></button><button className="icon-button" aria-label="Afastar câmera" onClick={() => useStore.setState(s => ({ zoomRequest: s.zoomRequest - 1 }))}><Minus size={20} /></button><span /><button className="icon-button" aria-label="Centralizar câmera" onClick={() => useStore.setState(s => ({ resetCamera: s.resetCamera + 1 }))}><Target size={19} /></button><button className="icon-button fullscreen-button" aria-label="Alternar tela cheia" onClick={() => { if (document.fullscreenElement) void document.exitFullscreen(); else void document.documentElement.requestFullscreen?.().catch(() => useStore.getState().setModal('help')); }}><Expand size={17} /></button></div>
+          <CameraTools />
           <div className="scene-options"><button aria-pressed={paths} onClick={() => useStore.setState({ paths: !paths })}><span className={`small-checkbox ${paths ? 'checked' : ''}`}>{paths && <Check size={10} />}</span> Órbitas</button><button aria-pressed={labels} onClick={() => useStore.setState({ labels: !labels })}><span className={`small-checkbox ${labels ? 'checked' : ''}`}>{labels && <Check size={10} />}</span> Nomes</button></div>
           <div className="scene-gesture-tip"><span className="mouse-outline" /> Arraste para explorar <i /> Aproxime para descobrir</div>
         </div>
