@@ -5,7 +5,7 @@
 ## Verificações automatizadas
 
 - `npm run lint`: aprovado, sem erros ou avisos no código do projeto.
-- `npm test`: 100 testes aprovados em seis suítes (48 de órbitas/rotação, 17 de missões/conteúdo, 24 de escalas/hierarquia das luas, 5 de navegação, 3 da geometria dos anéis e 3 da orientação das texturas).
+- `npm test`: 125 testes aprovados em sete suítes (48 de órbitas/rotação, 17 de missões/conteúdo, 24 de escalas/hierarquia das luas, 5 de câmera, 3 da geometria dos anéis, 3 da orientação das texturas e 25 de navegação entre astros).
 - `npm run build`: TypeScript, Vite e geração do service worker aprovados.
 - `scripts/verify-build.mjs`: 52 URLs únicas no precache; todos os arquivos existem; o GLB sem hash tem revisão de conteúdo; fallback de navegação e controle de clientes estão presentes; manifesto, Meshopt, quantização e cabeçalho KTX2 válidos.
 - `npm audit`: sem vulnerabilidades conhecidas na instalação validada. A versão corrigida de Sharp é utilizada.
@@ -49,6 +49,13 @@
 - Corrigida a coordenada V no carregamento KTX2 compartilhado por Sol, planetas e Lua; WebP econômico e fallback mantêm a orientação original. Inclinação dos eixos, geometria, longitude e rotação não foram alteradas.
 - Terra comparada visualmente em WebGL nos modos Caprichada, Econômica e Equilibrada: orientação consistente dos continentes. Júpiter também inspecionado. Nenhum erro na consulta final do navegador.
 - Testes verificam a correspondência das coordenadas de toda a esfera entre formatos, polos norte/sul, longitude, linha central dos anéis e reaplicação segura da configuração. O modo WebGPU mantém a limitação registrada na seção anterior.
+
+## Atualização: navegação contínua no Sistema Solar
+
+- Seleção por menu, cena, lista de luas, missões e passaporte agora usa a mesma ação de foco no sistema completo. A escala separada exige a ação explícita “Abrir visão isolada”.
+- No Chrome/WebGL, visitar Terra e Júpiter manteve os 23 marcadores (Sol, oito planetas e 14 luas). Terra aproximada com órbitas e cinturão ainda presentes. Clique no marcador de Júpiter, mãozinha e zoom também exercitados, sem erros na consulta ao navegador.
+- Testes verificam todos os 23 astros, inclusive seleção após uma visão isolada, foco repetido, registro de visita, retorno ao mapa e separação da ação de inspeção.
+- Os astros permanecem na cena, mas podem ficar fora do enquadramento ao aproximar a câmera; olhar em volta ou afastar revela as outras regiões do sistema.
 
 ## Teste offline real
 

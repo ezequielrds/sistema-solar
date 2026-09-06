@@ -9,7 +9,7 @@ export function Sidebar({ open, onClose }: { open: boolean; onClose: () => void 
   const setSection = useStore(s => s.setSection);
   const parent = bodyById[selected]?.parent ?? selected;
   const moons = moonsOf(parent);
-  const go = (id: string) => { useStore.getState().select(id, id !== 'sun' && id !== 'belt'); onClose(); };
+  const go = (id: string) => { useStore.getState().select(id); onClose(); };
   return <>
     {open && <div className="sidebar-scrim" onClick={onClose} />}
     <aside className={`sidebar ${open ? 'sidebar-open' : ''}`} aria-label="Navegação principal">

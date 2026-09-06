@@ -9,7 +9,7 @@ export function MissionBoard() {
     const items = mission.kind === 'quiz' ? progress.correct : mission.kind === 'visit' ? progress.visited : progress.speeds;
     const next = mission.target.find(id => !items.includes(id));
     if (mission.kind === 'quiz') useStore.getState().startQuiz(next);
-    else if (mission.kind === 'visit' && next) useStore.getState().select(next, true);
+    else if (mission.kind === 'visit' && next) useStore.getState().select(next);
     else { useStore.getState().setSection('explore'); useStore.getState().setModal('help'); }
   }
   return <section className="collection-page">

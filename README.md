@@ -25,7 +25,7 @@ O endereço local é `http://127.0.0.1:5173/sistema-solar/`. A base `/sistema-so
 
 - Arraste com um dedo ou o mouse para orbitar a câmera. Use pinça ou roda para aproximar. Dois dedos ou botão direito movem o centro.
 - O botão **mãozinha** permite mover o mapa com o botão esquerdo ou um dedo, sem selecionar astros por acidente. O botão **Girar** restaura a rotação. A roda aproxima na direção do cursor; os botões +/− aproximam do centro escolhido após o pan. **Centralizar** volta ao astro selecionado. Navegar manualmente interrompe o acompanhamento automático do astro.
-- Toque nos planetas ou use os atalhos do menu. “Visitar de perto” abre a escala local. Em “Luas”, escolha uma companheira para visitar.
+- Toque nos planetas ou luas, ou use os atalhos do menu: a câmera se aproxima dentro do Sistema Solar, mantendo os outros astros na cena. Passaporte e missões seguem a mesma navegação. Arraste para olhar em volta; “Ver todo o sistema” afasta a câmera. Apenas “Abrir visão isolada” abre uma escala local separada.
 - As 14 luas também orbitam seus planetas no mapa completo. Marcadores indicam suas posições de longe; aproxime a câmera para revelar os nomes ou toque em um marcador para visitar a lua. “Nomes” controla os marcadores e “Órbitas” controla os trajetos.
 - Abra “Missões” para ver oito objetivos. Os desafios têm pistas, tentativas ilimitadas e leitura em voz alta quando suportada pelo aparelho.
 - Visitas valem 10 estrelas; cada nome aprendido vale 15; missões têm bônus. Cada recompensa é concedida uma única vez.

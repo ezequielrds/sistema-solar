@@ -51,7 +51,7 @@ export function CelestialBody({ body, central = false, radius: radiusOverride, d
     // Parent translations run before moon positions and the camera (-10).
   }, body.kind === 'planet' ? -40 : -30);
 
-  const onSelect = (e: ThreeEvent<MouseEvent>) => { if (panning) return; e.stopPropagation(); useStore.getState().select(body.id, body.kind === 'moon' || view !== 'system'); };
+  const onSelect = (e: ThreeEvent<MouseEvent>) => { if (panning) return; e.stopPropagation(); useStore.getState().select(body.id); };
   return <group ref={group}>
     {body.kind === 'star' && <SunGlow radius={radius} />}
     <group rotation={[0, 0, radians(body.tilt)]}>
@@ -67,7 +67,7 @@ export function CelestialBody({ body, central = false, radius: radiusOverride, d
     </group>
     {children}
     {labels && <Html position={[0, radius + (body.kind === 'star' ? .6 : systemMoon ? .1 : .35), 0]} center zIndexRange={systemMoon ? [10, 0] : [12, 0]} style={{ pointerEvents: panning ? 'none' : 'auto' }}>
-      <button ref={label} className={`body-label ${systemMoon ? 'system-moon-label' : ''} ${selected ? 'is-selected' : ''}`} title={systemMoon ? `${body.name} · aproxime para conhecer` : undefined} onClick={() => useStore.getState().select(body.id, body.kind === 'moon' || view !== 'system')} aria-label={`Explorar ${body.name}`}>
+      <button ref={label} className={`body-label ${systemMoon ? 'system-moon-label' : ''} ${selected ? 'is-selected' : ''}`} title={systemMoon ? `${body.name} · aproxime para conhecer` : undefined} onClick={() => useStore.getState().select(body.id)} aria-label={`Explorar ${body.name}`}>
         <i style={{ background: body.color }} /><span className="body-label-name">{body.name}</span>{selected && <span className="label-dot" />}
       </button>
     </Html>}

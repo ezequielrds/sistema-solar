@@ -36,7 +36,8 @@ interface Store {
   cameraMode: CameraMode;
   progress: Progress;
   storageError: boolean;
-  select: (id: string, close?: boolean) => void;
+  select: (id: string) => void;
+  inspect: (id: string) => void;
   overview: () => void;
   setSpeed: (speed: number) => void;
   setSection: (section: Store['section']) => void;
@@ -57,9 +58,13 @@ export const useStore = create<Store>()(persist((set, get) => ({
   speed: 2, paused: matchMedia('(prefers-reduced-motion: reduce)').matches,
   labels: true, paths: true, sound: false, quality: 'auto', autoQuality: detectQuality(),
   renderer: 'webgl', rendererActive: 'WebGL 2', resetCamera: 0, zoomRequest: 0, cameraMode: 'orbit', progress: emptyProgress(), storageError: false,
-  select: (id, close = false) => {
+  select: (id) => {
     if (!bodyById[id] && id !== 'belt') return;
-    set(s => ({ selected: id, section: 'explore', view: close ? (bodyById[id]?.kind === 'moon' ? 'moon' : 'local') : 'system', resetCamera: s.resetCamera + 1, progress: recordProgress(s.progress, 'visited', id) }));
+    set(s => ({ selected: id, section: 'explore', view: 'system', resetCamera: s.resetCamera + 1, progress: recordProgress(s.progress, 'visited', id) }));
+  },
+  inspect: (id) => {
+    if (!bodyById[id]) return;
+    set(s => ({ selected: id, section: 'explore', view: bodyById[id].kind === 'moon' ? 'moon' : 'local', resetCamera: s.resetCamera + 1, progress: recordProgress(s.progress, 'visited', id) }));
   },
   overview: () => set(s => ({ view: 'system', selected: 'sun', section: 'explore', resetCamera: s.resetCamera + 1 })),
   setSpeed: (speed) => { if (Number.isInteger(speed) && speed >= 0 && speed < speeds.length) set(s => ({ speed, progress: recordProgress(s.progress, 'speeds', String(speed)) })); },
