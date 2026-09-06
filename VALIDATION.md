@@ -5,7 +5,7 @@
 ## Verificações automatizadas
 
 - `npm run lint`: aprovado, sem erros ou avisos no código do projeto.
-- `npm test`: 97 testes aprovados em cinco suítes (48 de órbitas/rotação, 17 de missões/conteúdo, 24 de escalas/hierarquia das luas, 5 de navegação e 3 da geometria dos anéis).
+- `npm test`: 100 testes aprovados em seis suítes (48 de órbitas/rotação, 17 de missões/conteúdo, 24 de escalas/hierarquia das luas, 5 de navegação, 3 da geometria dos anéis e 3 da orientação das texturas).
 - `npm run build`: TypeScript, Vite e geração do service worker aprovados.
 - `scripts/verify-build.mjs`: 52 URLs únicas no precache; todos os arquivos existem; o GLB sem hash tem revisão de conteúdo; fallback de navegação e controle de clientes estão presentes; manifesto, Meshopt, quantização e cabeçalho KTX2 válidos.
 - `npm audit`: sem vulnerabilidades conhecidas na instalação validada. A versão corrigida de Sharp é utilizada.
@@ -42,6 +42,13 @@
 - Novos testes verificam bindings de mouse/toque, zoom no centro deslocado e seus limites, UVs radiais, fechamento do anel e orçamento da geometria econômica.
 - Lint e build aprovados; nenhum erro de execução na consulta ao navegador após os testes de navegação e Saturno.
 - As correções visuais e de pan desta rodada foram validadas em WebGL. Na verificação adicional, WebGPU apresentou cena vazia neste ambiente mesmo sem erro no console; essa modalidade experimental não está validada nesta atualização. Use WebGL, que permanece o padrão. Não foi determinada a causa desse comportamento.
+
+## Atualização: orientação das texturas
+
+- Reproduzida a Terra invertida em qualidade Caprichada, com a Antártida no topo. A geração de KTX2 preserva as linhas da imagem, mas texturas comprimidas não recebem a inversão vertical de upload usada pelo WebP.
+- Corrigida a coordenada V no carregamento KTX2 compartilhado por Sol, planetas e Lua; WebP econômico e fallback mantêm a orientação original. Inclinação dos eixos, geometria, longitude e rotação não foram alteradas.
+- Terra comparada visualmente em WebGL nos modos Caprichada, Econômica e Equilibrada: orientação consistente dos continentes. Júpiter também inspecionado. Nenhum erro na consulta final do navegador.
+- Testes verificam a correspondência das coordenadas de toda a esfera entre formatos, polos norte/sul, longitude, linha central dos anéis e reaplicação segura da configuração. O modo WebGPU mantém a limitação registrada na seção anterior.
 
 ## Teste offline real
 

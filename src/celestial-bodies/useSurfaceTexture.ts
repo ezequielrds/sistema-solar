@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useThree } from '@react-three/fiber';
-import { SRGBColorSpace, Texture, TextureLoader } from 'three';
+import { Texture, TextureLoader } from 'three';
 import { KTX2Loader } from 'three/addons/loaders/KTX2Loader.js';
 import { useStore } from '../state';
+import { prepareSurfaceTexture } from './surfaceTexture';
 
 const pending = new WeakMap<object, Map<string, Promise<Texture>>>();
 const decoders = new WeakMap<object, KTX2Loader>();
@@ -27,7 +28,7 @@ export function useSurfaceTexture(name?: string): Texture | null {
     const key = `${name}-${quality}`;
     if (!cache.has(key)) {
       const base = `${import.meta.env.BASE_URL}textures/${name}`;
-      const webp = () => new TextureLoader().loadAsync(`${base}-${quality === 'low' ? '512' : '1024'}.webp`);
+      const webp = () => new TextureLoader().loadAsync(`${base}-${quality === 'low' ? '512' : '1024'}.webp`).then(map => prepareSurfaceTexture(map, 'webp'));
       let promise: Promise<Texture>;
       if (quality === 'low') promise = webp();
       else {
@@ -36,9 +37,9 @@ export function useSurfaceTexture(name?: string): Texture | null {
           decoder.detectSupport(gl);
           decoders.set(gl, decoder);
         }
-        promise = decoders.get(gl)!.loadAsync(`${base}.ktx2`).catch(webp);
+        promise = decoders.get(gl)!.loadAsync(`${base}.ktx2`).then(map => prepareSurfaceTexture(map, 'ktx2')).catch(webp);
       }
-      cache.set(key, promise.then(map => { map.colorSpace = SRGBColorSpace; map.anisotropy = 2; return map; }));
+      cache.set(key, promise);
     }
     cache.get(key)!.then(map => { if (!cancelled) setTexture(map); }).catch(() => { /* A colored surface remains available even if a texture fails. */ });
     return () => { cancelled = true; };
